@@ -5,6 +5,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamsList } from "../../routes/app.routes";
+import { api } from "../../services/api";
 
 export default function Dashboard() {
    // const { signOut } = useContext(AuthContext);
@@ -16,8 +17,12 @@ export default function Dashboard() {
         return;
     }
     
-    // fazer a requisição, abrir a mesa e navegar para o pedido
-    navigation.navigate('Order', { number: number, order_id: 'f8dad738-7b96-4fce-8d96-677e314ab7cd' });
+    const response = await api.post('/order', {
+        table: Number(number)
+    })
+    //console.log(response.data);
+    navigation.navigate('Order', { number: number, order_id: response.data.id });
+    setNumber('');
    }
 
     return (
