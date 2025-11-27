@@ -10,6 +10,7 @@ type RouteDetailParams = {
     FinishOrder: {
         number: string | number;
         order_id: string;
+        name: string;
     }
 }
 
@@ -35,6 +36,9 @@ export default function FinishOrder() {
             <Text style={styles.alert}>Deseja finalizar o pedido?</Text>
             <Text style={styles.title}>
                 Mesa {route.params.number}
+            </Text>
+            <Text style={styles.clientName}>
+                {route.params.name}
             </Text>
 
             <TouchableOpacity style={styles.button} onPress={handleFinish}>
@@ -65,6 +69,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#FFF',
         marginBottom: 12,
+    },
+    clientName: {
+        fontSize: 18,
+        color: '#3FFFA3',
+        marginBottom: 24,
     },
     button: {
         backgroundColor: '#3fffa3',

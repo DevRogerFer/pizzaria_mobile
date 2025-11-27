@@ -9,10 +9,12 @@ export type StackParamsList = {
     Order: {
         number: number | string;
         order_id: string;
+        name: string;
     };
     FinishOrder: {
         number: string | number;
         order_id: string;
+        name: string;
     };
 }
 

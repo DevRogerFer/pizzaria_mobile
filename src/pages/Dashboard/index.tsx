@@ -8,21 +8,22 @@ import { StackParamsList } from "../../routes/app.routes";
 import { api } from "../../services/api";
 
 export default function Dashboard() {
-   // const { signOut } = useContext(AuthContext);
    const navigation = useNavigation<NativeStackNavigationProp<StackParamsList>>();
    const [number, setNumber] = useState('');
+   const [name, setName] = useState('');
 
    async function openOrder() {
-    if (number === '') {
+    if (number === '' || name === '') {
         return;
     }
     
     const response = await api.post('/order', {
-        table: Number(number)
-    })
-    //console.log(response.data);
-    navigation.navigate('Order', { number: number, order_id: response.data.id });
+        table: Number(number),
+        name: name
+    });
+    navigation.navigate('Order', { number: number, order_id: response.data.id, name: name });
     setNumber('');
+    setName('');
    }
 
     return (
@@ -30,12 +31,20 @@ export default function Dashboard() {
             <Text style={styles.title}>Novo Pedido</Text>
 
             <TextInput
-                placeholder="Mesa"
+                placeholder="Número da mesa"
                 placeholderTextColor="#F0F0F0"
                 style={styles.input}
                 keyboardType="numeric"
                 value={number}
                 onChangeText={setNumber}
+            />
+
+            <TextInput
+                placeholder="Nome do cliente"
+                placeholderTextColor="#F0F0F0"
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
             />
 
             <TouchableOpacity style={styles.button} onPress={openOrder}>

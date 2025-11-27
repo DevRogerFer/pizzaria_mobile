@@ -12,6 +12,7 @@ type RouteDetailParams = {
     Order: {
         number: string | number;
         order_id: string;
+        name: string;
     }
 };
 
@@ -49,8 +50,6 @@ export default function Order() {
     const [amount, setAmount] = useState('1');
     const [items, setItems] = useState<ItemProps[]>([]);
     
-//    const { number, order_id } = route.params;
-
     useEffect(() => {
         async function loadInfo() {
             const response = await api.get('/category');
@@ -121,7 +120,7 @@ export default function Order() {
                 item_id: item_id
             }
         });
-        // atualizar a lista
+        // atualizando a lista
         let removeItem = items.filter( item => {
             return (item.id !== item_id);
         });
@@ -132,14 +131,18 @@ export default function Order() {
     function handleFinishOrder() {
         navigation.navigate('FinishOrder', {
             number: route.params?.number,
-            order_id: route.params?.order_id
+            order_id: route.params?.order_id,
+            name: route.params?.name
         });
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Mesa {route.params.number}</Text>
+                <View>
+                    <Text style={styles.title}>Mesa {route.params.number}</Text>
+                    <Text style={styles.clientName}>{route.params.name}</Text>
+                </View>
                 {items.length === 0 && (
                     <TouchableOpacity onPress={handleCloseOrder}>
                         <Feather name="trash-2" size={28} color="#FF3F4B" />
@@ -242,6 +245,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#FFF',
         marginRight: 14,
+    },
+    clientName: {
+        fontSize: 16,
+        color: '#3FFFA3',
+        marginTop: 4,
     },
     input: {
         width: '100%',
